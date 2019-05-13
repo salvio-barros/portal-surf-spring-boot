@@ -1,9 +1,11 @@
 package com.portalsurf.api.dao;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,59 +28,72 @@ public class SolicitacaoDAOTest {
 	@Autowired 
 	private SolicitacaoDAO solicitacaoDao;
 	
+	@Autowired
+	private FuncionarioDAO funcionarioDao;
+	
 	@Before
 	public void setup(){
-		solicitacaoDao.save(obterSolicitacoes());
+		Funcionario fun = funcionarioDao.save(preencherFuncionarios());
+		solicitacaoDao.save(preencherSolicitacoesFuncionarios(fun));
 	}
 	
+	private Funcionario preencherFuncionarios() {
+		// TODO Auto-generated method stub
+		Funcionario funcionario2 = new Funcionario();
+		funcionario2.setIdFuncionario(1L);
+		funcionario2.setNomeFuncionario("Funcionário 1");
+		funcionario2.setPerfil(PerfilEnum.ROLE_SHAPER);
+		funcionario2.setCpf(11L);
+		
+		return funcionario2;
+	}
+
+	@After
+	public void tearDown(){
+		this.solicitacaoDao.deleteAll();
+	}
+	
+	
 	@Test
-	public void findSolicitacaoSucesso(){
+	public void findSolicitacaoPorFuncionarioSucesso(){
+	
+		List<Solicitacao> listaUm = solicitacaoDao.findSolicitacaoByFuncionarioId(1L);
+		Funcionario funcionario = funcionarioDao.findByCpf(11L);
+		Assert.assertNotNull(funcionario);
+		Assert.assertTrue(!listaUm.isEmpty());
+		Assert.assertEquals(2, listaUm.size());
 		
 		
 	}
 
-	private List<Solicitacao> obterSolicitacoes() {
+	private List<Solicitacao> preencherSolicitacoesFuncionarios(Funcionario funcionario) {
 		// TODO Auto-generated method stub
 		Solicitacao solic1 = new Solicitacao();
 		solic1.setIdSolicitacao(1L);
 		solic1.setExperiencia(ExperienciaEnum.UM_A_CINCO_ANOS);
 		solic1.setDescricao("Prancha iniciante");
 		solic1.setDataSolicitacao(new Date());
+		solic1.setFuncionario(funcionario);
 		
 		Solicitacao solic2 = new Solicitacao();
 		solic2.setIdSolicitacao(2L);
 		solic2.setExperiencia(ExperienciaEnum.CINCO_A_DEZ_ANOS);
 		solic2.setDescricao("Prancha intermediária");
 		solic2.setDataSolicitacao(new Date());
+		solic2.setFuncionario(funcionario);
 		
 		Solicitacao solic3 = new Solicitacao();
 		solic3.setIdSolicitacao(3L);
 		solic3.setExperiencia(ExperienciaEnum.ACIMA_DEZ_ANOS);
 		solic3.setDescricao("Prancha avançada");
 		solic3.setDataSolicitacao(new Date());
-		
-		Funcionario funcionario = new Funcionario();
-		funcionario.setIdFuncionario(1L);
-		funcionario.setNomeFuncionario("Funcionário 1");
-		funcionario.setPerfil(PerfilEnum.ROLE_SHAPER);
-		funcionario.setCpf(11L);
+		solic3.setFuncionario(funcionario);
+	
 		
 		List<Solicitacao> solicitacoes = new ArrayList<Solicitacao>();
 		solicitacoes.add(solic1);
 		solicitacoes.add(solic2);
-		funcionario.setSolicitacoes(solicitacoes); 
-		
-		
-		Funcionario funcionario2 = new Funcionario();
-		funcionario2.setIdFuncionario(2L);
-		funcionario2.setNomeFuncionario("Funcionário 2");
-		funcionario2.setPerfil(PerfilEnum.ROLE_SHAPER);
-		funcionario2.setCpf(12L);
-		
-		List<Solicitacao> solicitacoes2 = new ArrayList<Solicitacao>();
-		solicitacoes2.add(solic3);
-		funcionario.setSolicitacoes(solicitacoes2); 
-		
-		return null;
+					
+		return solicitacoes;
 	}
 }
