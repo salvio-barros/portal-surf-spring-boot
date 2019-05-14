@@ -33,8 +33,6 @@ public class Solicitacao implements Serializable {
 		
 	private Funcionario funcionario;
 		
-	private ExperienciaEnum experiencia;
-	
 	public Solicitacao(){
 		
 	}
@@ -58,16 +56,6 @@ public class Solicitacao implements Serializable {
 
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
-	}
-
-	@Enumerated (EnumType.STRING)
-	@Column(name= "cs_experiencia", nullable = false)
-	public ExperienciaEnum getExperiencia() {
-		return experiencia;
-	}
-
-	public void setExperiencia(ExperienciaEnum experiencia) {
-		this.experiencia = experiencia;
 	}
 
 	@Column(name= "dt_solicitacao", nullable = true)

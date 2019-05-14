@@ -1,7 +1,6 @@
 package com.portalsurf.api.dao;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -17,7 +16,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.portalsurf.api.entities.Funcionario;
 import com.portalsurf.api.entities.Solicitacao;
-import com.portalsurf.api.enums.ExperienciaEnum;
 import com.portalsurf.api.enums.PerfilEnum;
 
 @RunWith(SpringRunner.class)
@@ -70,21 +68,21 @@ public class SolicitacaoDAOTest {
 		// TODO Auto-generated method stub
 		Solicitacao solic1 = new Solicitacao();
 		solic1.setIdSolicitacao(1L);
-		solic1.setExperiencia(ExperienciaEnum.UM_A_CINCO_ANOS);
+		//solic1.setExperiencia(ExperienciaEnum.UM_A_CINCO_ANOS);
 		solic1.setDescricao("Prancha iniciante");
 		solic1.setDataSolicitacao(new Date());
 		solic1.setFuncionario(funcionario);
 		
 		Solicitacao solic2 = new Solicitacao();
 		solic2.setIdSolicitacao(2L);
-		solic2.setExperiencia(ExperienciaEnum.CINCO_A_DEZ_ANOS);
+		//solic2.setExperiencia(ExperienciaEnum.CINCO_A_DEZ_ANOS);
 		solic2.setDescricao("Prancha intermediária");
 		solic2.setDataSolicitacao(new Date());
 		solic2.setFuncionario(funcionario);
 		
 		Solicitacao solic3 = new Solicitacao();
 		solic3.setIdSolicitacao(3L);
-		solic3.setExperiencia(ExperienciaEnum.ACIMA_DEZ_ANOS);
+		//solic3.setExperiencia(ExperienciaEnum.ACIMA_DEZ_ANOS);
 		solic3.setDescricao("Prancha avançada");
 		solic3.setDataSolicitacao(new Date());
 		solic3.setFuncionario(funcionario);
