@@ -5,9 +5,8 @@ import java.util.Date;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.br.CNPJ;
-import org.hibernate.validator.constraints.br.CPF;
 
-public class CadastroPjDTO {
+public class EmpresaDTO {
 
 	@NotEmpty(message="Razão social não pode ser vazio")
 	@Length(min= 3, max = 20, message= "Razão social deve possuir entre 3 e 20 caracteres")
@@ -15,16 +14,12 @@ public class CadastroPjDTO {
 
 	@NotEmpty(message="CNPJ não pode ser vazio")
 	@CNPJ(message="CNPJ inválido")
-	private Long cnpj;
+	private String cnpj;
 		
 	private Date dataCriacao;
-	
-	@NotEmpty(message="CPF não pode ser vazio")
-	@CPF(message="CPF inválido")
-	private Long cpf;
-	
+
 	@NotEmpty(message="Nome não pode ser vazio")
-	@Length(min= 3, max = 20, message= "Razão social deve possuir entre 3 e 20 caracteres")
+	@Length(min= 3, max = 20, message= "Nome deve possuir entre 3 e 20 caracteres")
 	private String nome;
 
 	public String getRazaoSocial() {
@@ -35,28 +30,12 @@ public class CadastroPjDTO {
 		this.razaoSocial = razaoSocial;
 	}
 
-	public Long getCnpj() {
-		return cnpj;
-	}
-
-	public void setCnpj(Long cnpj) {
-		this.cnpj = cnpj;
-	}
-
 	public Date getDataCriacao() {
 		return dataCriacao;
 	}
 
 	public void setDataCriacao(Date dataCriacao) {
 		this.dataCriacao = dataCriacao;
-	}
-
-	public Long getCpf() {
-		return cpf;
-	}
-
-	public void setCpf(Long cpf) {
-		this.cpf = cpf;
 	}
 
 	public String getNome() {

@@ -15,6 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.portalsurf.api.enums.ExperienciaEnum;
+import com.portalsurf.api.enums.FaseEnum;
 
 @Entity
 @Table(name= "solicitacao")
@@ -32,14 +33,26 @@ public class Solicitacao implements Serializable {
 	private Date dataSolicitacao;
 		
 	private Funcionario funcionario;
+	
+	private FaseEnum fase;
 		
 	public Solicitacao(){
 		
 	}
 
-	
+	@Column(name= "cs_fase", nullable = false)
+	public FaseEnum getFase() {
+		return fase;
+	}
+
+
+	public void setFase(FaseEnum fase) {
+		this.fase = fase;
+	}
+
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="idSolicitacao", nullable = false)
 	public Long getIdSolicitacao() {
 		return idSolicitacao;

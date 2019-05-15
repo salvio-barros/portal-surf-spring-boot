@@ -1,6 +1,7 @@
 package com.portalsurf.api.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -41,6 +42,9 @@ public class Funcionario implements Serializable{
 
 	@OneToMany(mappedBy="funcionario", fetch= FetchType.LAZY, cascade = CascadeType.ALL)
 	public List<Solicitacao> getSolicitacoes() {
+		if(solicitacoes == null){
+			solicitacoes = new ArrayList<Solicitacao>();
+		}
 		return solicitacoes;
 	}
 

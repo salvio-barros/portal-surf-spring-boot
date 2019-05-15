@@ -16,7 +16,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.portalsurf.api.entities.Funcionario;
 import com.portalsurf.api.entities.Solicitacao;
+import com.portalsurf.api.enums.FaseEnum;
 import com.portalsurf.api.enums.PerfilEnum;
+import com.portalsurf.api.service.FuncionarioService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -27,11 +29,14 @@ public class SolicitacaoDAOTest {
 	private SolicitacaoDAO solicitacaoDao;
 	
 	@Autowired
-	private FuncionarioDAO funcionarioDao;
+	private FuncionarioDAO funcionarioDAO;
+	
+	@Autowired
+	private FuncionarioService funcionarioService;
 	
 	@Before
 	public void setup(){
-		Funcionario fun = funcionarioDao.save(preencherFuncionarios());
+		Funcionario fun = funcionarioService.salvar(preencherFuncionarios());
 		solicitacaoDao.save(preencherSolicitacoesFuncionarios(fun));
 	}
 	
@@ -56,7 +61,7 @@ public class SolicitacaoDAOTest {
 	public void findSolicitacaoPorFuncionarioSucesso(){
 	
 		List<Solicitacao> listaUm = solicitacaoDao.findSolicitacaoByFuncionarioId(1L);
-		Funcionario funcionario = funcionarioDao.findByCpf(11L);
+		Funcionario funcionario = funcionarioDAO.findByCpf(11L);
 		Assert.assertNotNull(funcionario);
 		Assert.assertTrue(!listaUm.isEmpty());
 		Assert.assertEquals(2, listaUm.size());
@@ -68,24 +73,24 @@ public class SolicitacaoDAOTest {
 		// TODO Auto-generated method stub
 		Solicitacao solic1 = new Solicitacao();
 		solic1.setIdSolicitacao(1L);
-		//solic1.setExperiencia(ExperienciaEnum.UM_A_CINCO_ANOS);
 		solic1.setDescricao("Prancha iniciante");
 		solic1.setDataSolicitacao(new Date());
 		solic1.setFuncionario(funcionario);
+		solic1.setFase(FaseEnum.CONCEPCAO);
 		
 		Solicitacao solic2 = new Solicitacao();
 		solic2.setIdSolicitacao(2L);
-		//solic2.setExperiencia(ExperienciaEnum.CINCO_A_DEZ_ANOS);
 		solic2.setDescricao("Prancha intermediária");
 		solic2.setDataSolicitacao(new Date());
 		solic2.setFuncionario(funcionario);
+		solic2.setFase(FaseEnum.CONCEPCAO);
 		
 		Solicitacao solic3 = new Solicitacao();
 		solic3.setIdSolicitacao(3L);
-		//solic3.setExperiencia(ExperienciaEnum.ACIMA_DEZ_ANOS);
 		solic3.setDescricao("Prancha avançada");
 		solic3.setDataSolicitacao(new Date());
 		solic3.setFuncionario(funcionario);
+		solic3.setFase(FaseEnum.CONCEPCAO);
 	
 		
 		List<Solicitacao> solicitacoes = new ArrayList<Solicitacao>();
