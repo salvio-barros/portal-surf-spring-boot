@@ -34,6 +34,8 @@ public class Solicitacao implements Serializable {
 		
 	private Funcionario funcionario;
 	
+	private Surfista surfista;
+	
 	private FaseEnum fase;
 		
 	public Solicitacao(){
@@ -87,6 +89,15 @@ public class Solicitacao implements Serializable {
 
 	public void setFuncionario(Funcionario funcionario) {
 		this.funcionario = funcionario;
+	}
+
+	@ManyToOne (fetch = FetchType.EAGER)
+	public Surfista getSurfista() {
+		return surfista;
+	}
+
+	public void setSurfista(Surfista surfista) {
+		this.surfista = surfista;
 	}
 	
 	
