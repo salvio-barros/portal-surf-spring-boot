@@ -30,13 +30,10 @@ public class SolicitacaoDAOTest {
 	
 	@Autowired
 	private FuncionarioDAO funcionarioDAO;
-	
-	@Autowired
-	private FuncionarioService funcionarioService;
-	
+		
 	@Before
 	public void setup(){
-		Funcionario fun = funcionarioService.salvar(preencherFuncionarios());
+		Funcionario fun = funcionarioDAO.save(preencherFuncionarios());
 		solicitacaoDao.save(preencherSolicitacoesFuncionarios(fun));
 	}
 	
@@ -54,6 +51,7 @@ public class SolicitacaoDAOTest {
 	@After
 	public void tearDown(){
 		this.solicitacaoDao.deleteAll();
+		this.funcionarioDAO.deleteAll();
 	}
 	
 	

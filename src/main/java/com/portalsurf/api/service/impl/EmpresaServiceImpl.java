@@ -1,5 +1,6 @@
 package com.portalsurf.api.service.impl;
 
+import java.util.Date;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ public class EmpresaServiceImpl implements EmpresaService{
 	@Override
 	public Empresa salvar(Empresa emp) {
 		// TODO Auto-generated method stub
+		emp.setDataCriacao(new Date());
 		return empresaDao.save(emp);
 	}
 

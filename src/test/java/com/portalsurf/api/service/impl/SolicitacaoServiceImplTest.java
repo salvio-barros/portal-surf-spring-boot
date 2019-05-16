@@ -24,9 +24,7 @@ public class SolicitacaoServiceImplTest {
 	@MockBean
 	private SolicitacaoDAO solicitacaoDAO;
 	
-	@Autowired
-	private SolicitacaoService solicitacaoService;
-	
+		
 	@Before
 	public void setup(){
 		BDDMockito.given(solicitacaoDAO.save(Mockito.any(Solicitacao.class))).willReturn(new Solicitacao());
