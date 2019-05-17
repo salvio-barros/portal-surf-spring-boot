@@ -8,7 +8,7 @@ public interface SolicitacaoService {
 
 	public List<Solicitacao> obterSolicitacoesPorFuncionario(Long idFuncionario);
 	
-	public Solicitacao persistir(Solicitacao solicitacao);
+	public Solicitacao criar(Solicitacao solicitacao);
 	
 	public Solicitacao atribuirSolicitacao(Long cpf, Long idSolicitacao);
 	
