@@ -9,6 +9,7 @@ import javax.validation.Validator;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.portalsurf.api.dtos.SolicitacaoDTO;
 import com.portalsurf.api.entities.Solicitacao;
+import com.portalsurf.api.exception.FalhaEmailException;
 import com.portalsurf.api.response.Response;
 import com.portalsurf.api.service.SolicitacaoService;
 import com.portalsurf.api.utils.DateUtils;
@@ -47,7 +49,7 @@ public class SolicitacoesController {
 	
 	@PostMapping
 	public ResponseEntity<Response<SolicitacaoDTO>> cadastrar (@RequestBody SolicitacaoDTO solicitacaoDTO,
-			BindingResult result) throws NoSuchAlgorithmException{
+			BindingResult result) throws NoSuchAlgorithmException, MailException, FalhaEmailException{
 		
 
 		Response<SolicitacaoDTO> response = new Response<SolicitacaoDTO>();

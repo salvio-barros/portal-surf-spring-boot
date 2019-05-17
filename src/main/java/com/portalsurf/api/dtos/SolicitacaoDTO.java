@@ -26,8 +26,7 @@ public class SolicitacaoDTO {
 	@NotNull(message="Nome não pode ser vazio")
 	@Size(min= 3, max = 20, message= "Nome deve possuir entre 3 e 20 caracteres")
 	private String nome;
-		
-	@NotNull(message="Email não pode ser vazio")
+	
 	@Email(message="Email inválido")
 	private String email;
 	

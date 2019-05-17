@@ -7,6 +7,8 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 
+import com.portalsurf.api.exception.FalhaEmailException;
+
 public class EmailUtils {
 
 
@@ -20,7 +22,7 @@ public class EmailUtils {
         return message;
     }
 	
-	public static MimeMessage gerarEmailMimeMessage(JavaMailSender mailSender, String msg,String mailTo) {
+	public static MimeMessage gerarEmailMimeMessage(JavaMailSender mailSender, String msg,String mailTo) throws FalhaEmailException {
       
 		MimeMessage mail = mailSender.createMimeMessage();
 
@@ -28,10 +30,10 @@ public class EmailUtils {
         try {
 			helper.setTo(mailTo);
 			helper.setSubject( "Teste Envio de e-mail mime type" );
-		    helper.setText("<p>Hello from Spring Boot Application</p><p>"+msg+"</p>", true);
+		    helper.setText("<p>Hello from Spring Boot Application</x><p>"+msg+"</p>", true);
 		} catch (MessagingException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new FalhaEmailException("Falha ao preparar o email", e);
 		}
     	return  helper.getMimeMessage();
       

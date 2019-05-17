@@ -35,7 +35,7 @@ public class Solicitacao implements Serializable {
 	@Column(name= "cpf", nullable = false)
 	private String cpf;
 	
-	@Column(name= "email", nullable = false)
+	@Column(name= "email", nullable = true)
 	private String email;
 	
 	@Column(name= "telefone", nullable = false)
