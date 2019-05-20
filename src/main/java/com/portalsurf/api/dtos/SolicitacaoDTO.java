@@ -3,15 +3,10 @@ package com.portalsurf.api.dtos;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.br.CPF;
-
-import com.portalsurf.api.enums.ExperienciaEnum;
 
 public class SolicitacaoDTO {
 
@@ -135,6 +130,14 @@ public class SolicitacaoDTO {
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+
+	public Integer getFase() {
+		return fase;
+	}
+
+	public void setFase(Integer fase) {
+		this.fase = fase;
 	}
 	
 	

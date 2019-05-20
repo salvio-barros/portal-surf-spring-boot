@@ -23,4 +23,15 @@ public enum FaseEnum {
 	public String getDescricao() {
 		return descricao;
 	}
+	
+	public static FaseEnum valorPorId(Integer id) {
+		FaseEnum tipoRetorno = null;
+        for (FaseEnum tipo : values()) {
+            if (tipo.getId().equals(id)) {
+                tipoRetorno = tipo;
+                break;
+            }
+        }
+        return tipoRetorno;
+    }
 }

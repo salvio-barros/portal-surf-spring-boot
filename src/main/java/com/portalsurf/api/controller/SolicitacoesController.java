@@ -1,6 +1,7 @@
 package com.portalsurf.api.controller;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.Optional;
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
@@ -20,9 +21,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.portalsurf.api.dtos.SolicitacaoDTO;
+import com.portalsurf.api.entities.Funcionario;
 import com.portalsurf.api.entities.Solicitacao;
+import com.portalsurf.api.enums.FaseEnum;
 import com.portalsurf.api.exception.FalhaEmailException;
 import com.portalsurf.api.response.Response;
+import com.portalsurf.api.service.FuncionarioService;
 import com.portalsurf.api.service.SolicitacaoService;
 import com.portalsurf.api.utils.DateUtils;
 import com.portalsurf.api.utils.EmailUtils;
@@ -33,6 +37,9 @@ public class SolicitacoesController {
 
 	@Autowired
 	private SolicitacaoService solicitacaoService;
+	
+	@Autowired
+	private FuncionarioService funcionarioService;
 	
 	@Autowired
 	private Validator validator;
@@ -73,11 +80,10 @@ public class SolicitacoesController {
 	
 		response.setData(dtoRetorno);
 		
-		String emailMsg="Olá " + dtoRetorno.getNome()+ ".\n" + "Sua solicitação de número foi registrada em " + 
-		DateUtils.format(dtoRetorno.getDataSolicitacao(), DateUtils.CST_STRING_DD_MM_YYYY_HH_MM_SS);
+		String msg = gerarConteudoEmail(dtoRetorno);
 		
-		mailSender.send(EmailUtils.gerarEmailParaEnvio(emailMsg, dtoRetorno.getEmail()));
-		mailSender.send(EmailUtils.gerarEmailMimeMessage(mailSender,emailMsg, dtoRetorno.getEmail()));
+		//mailSender.send(EmailUtils.gerarEmailParaEnvio(msg, dtoRetorno.getEmail()));
+		mailSender.send(EmailUtils.gerarEmailMimeMessage(mailSender,msg, dtoRetorno.getEmail()));
 		
 		return ResponseEntity.ok(response);
 	}
@@ -86,14 +92,63 @@ public class SolicitacoesController {
 	public ResponseEntity<Response<SolicitacaoDTO>> atribuirSolicitacao(@PathVariable("cpf") Long cpf, @PathVariable("id") Long id, BindingResult result ){
 		Response<SolicitacaoDTO> response = new Response<SolicitacaoDTO>();
 		
-		Solicitacao solicitacao = solicitacaoService.atribuirSolicitacao(cpf, id);
+		Optional<Funcionario> funcionario = funcionarioService.buscarFuncionarioPorCpf(cpf);
 		
-		response.setData(gerarSolicitacaoDTO(solicitacao));
+		if(!funcionario.isPresent()){
+			response.getErrors().add("Funcionário não encontrado");
+		}
 		
-		return ResponseEntity.ok(response);
-		
+		if(response.getErrors().isEmpty()){
+			Solicitacao solicitacao = solicitacaoService.atribuirSolicitacao(funcionario.get(), id);
+			response.setData(gerarSolicitacaoDTO(solicitacao));
+			return ResponseEntity.ok(response);
+		} else{
+			return ResponseEntity.badRequest().body(response);
+		}
 	}
+	
+	@PutMapping(value= "{id}/{status}")
+	public ResponseEntity<Response<SolicitacaoDTO>> atualizarStatusSolicitacao(@PathVariable("id") Long id, @PathVariable("status") Integer status, BindingResult result){
+		Response<SolicitacaoDTO> response = new Response<SolicitacaoDTO>();
 		
+		Optional<Solicitacao> solicitacao = Optional.ofNullable(solicitacaoService.atualizarStatusSolicitacao(id,status));
+		
+		if(!solicitacao.isPresent()){
+			response.getErrors().add("Solicitação não encontrada para atualização");
+			return ResponseEntity.badRequest().body(response);
+		} else{
+			
+			SolicitacaoDTO dtoRetorno = gerarSolicitacaoDTO(solicitacao.get());
+						
+			String msg = gerarConteudoEmail(dtoRetorno);
+						
+			mailSender.send(EmailUtils.gerarEmailMimeMessage(mailSender,msg, dtoRetorno.getEmail()));
+			
+			return ResponseEntity.ok(response);
+		}
+	}
+	
+	
+		
+	private String gerarConteudoEmail(SolicitacaoDTO dto) {
+		// TODO Auto-generated method stub
+		FaseEnum fase = FaseEnum.valorPorId(dto.getFase());
+		String emailMsg = "";
+		if(fase.equals(FaseEnum.CONCEPCAO)){
+			emailMsg ="Olá " + dto.getNome()+ ".\n" + "Sua solicitação foi registrada em " + 
+					DateUtils.format(dto.getDataSolicitacao(), DateUtils.CST_STRING_DD_MM_YYYY_HH_MM_SS);
+		} else if(fase.equals(FaseEnum.FINALIZADO)){
+			emailMsg = "Olá " + dto.getNome()+ ".\n" + "Sua solicitação foi finalizada em: " + DateUtils.format(dto.getDataFinalização()
+					, DateUtils.CST_STRING_DD_MM_YYYY_HH_MM_SS);
+		} else{
+			emailMsg = "Olá " + dto.getNome()+ ".\n" + "Sua solicitação encontra-se em estado "+ fase.getDescricao() +
+					" em: " + DateUtils.format(dto.getDataUltimaAtualização()
+					, DateUtils.CST_STRING_DD_MM_YYYY_HH_MM_SS);
+		}
+		
+		return emailMsg;
+	}
+
 	private SolicitacaoDTO gerarSolicitacaoDTO(Solicitacao solicitacao){
 		
 		SolicitacaoDTO solicitacaoDTO = new SolicitacaoDTO();
