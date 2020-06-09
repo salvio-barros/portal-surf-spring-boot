@@ -8,11 +8,11 @@
 		<version>1.5.20.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.portalsurf</groupId>
+	<groupId>com.lacomania</groupId>
 	<artifactId>perfil-surfista</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>perfil-surfista</name>
-	<description>API para sistema surf</description>
+	<name>lacomania-api</name>
+	<description>API para sistema de gerenciamento de produtos da Lacomania</description>
 
 	<properties>
 		<java.version>1.8</java.version>
@@ -48,6 +48,12 @@
 		<dependency>
 			 <groupId>org.springframework.boot</groupId>
 			 <artifactId>spring-boot-starter-mail</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<optional>true</optional>
 		</dependency>
 		
 		<dependency>

@@ -1,20 +1,17 @@
 package com.portalsurf.api.service.impl;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.BDDMockito;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.portalsurf.api.dao.SolicitacaoDAO;
-import com.portalsurf.api.entities.Solicitacao;
-import com.portalsurf.api.service.SolicitacaoService;
+import com.lacomania.api.dao.SolicitacaoDAO;
+import com.lacomania.api.entities.Solicitacao;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
